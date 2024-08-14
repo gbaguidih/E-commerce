@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h1>Créer Produict</h1>
+        <h1>Créer Produit</h1>
         <form action="{{ route('store.products') }}" method="POST">
             @csrf
             <div class="mb-3">
@@ -31,11 +31,11 @@
                 <label for="category_id" class="form-label">Categories</label>
                 <select class="form-control" id="category_id" name="category_id">
                     @foreach ($categories as $category)
-                      <option value="{{$category->name}}">{{$category->name}}</option>
+                      <option value="{{$category->id}}">{{$category->name}}</option>
                     @endforeach
                 </select>
             </div>
-            
+    
            
             <button type="submit" class="btn btn-primary">Créer</button>
         </form>

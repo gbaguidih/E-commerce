@@ -18,33 +18,42 @@
             @csrf
             @method('PUT')
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description">{{ old('description', $products->description) }}</textarea>
-                @if($errors->has('description'))
-                    <div class="error-message">{{ $errors->first('description') }}</div>
+                <label for="name" class="form-label">Nom</label>
+                <input type="text" class="form-control" value="{{$products->name}}"  id="name" name="name" >
+                @if($errors->has('name'))
+                    <div class="error-message">{{ $errors }}</div>
                 @endif
             </div>
             <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <input type="float" class="form-control" id="price" name="price" required>
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control"  id="description"value="{{$products->description}}" name="description">{{ old('description', $products->description) }}</textarea>
+                @if($errors->has('description'))
+                    <div class="error-message">{{ $errors }}</div>
+                @endif
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Prix</label>
+                <input type="text" class="form-control" value="{{$products->price}}" id="price" name="price" >
+                @if($errors->has('price'))
+                    <div class="error-message">{{ $errors }}</div>
+                @endif
             </div>
             <div class="mb-3">
                 <label for="stock" class="form-label">Stock</label>
-                <input type="integer" class="form-control" id="stock" name="stock" required>   
+                <input type="integer" class="form-control" value="{{$products->stock}}" id="stock" name="stock" > 
+                @if($errors->has('stock'))
+                    <div class="error-message">{{ $errors }}</div>
+                @endif  
             </div>        
             <div class="mb-3">
-                <label for="categories_id" class="form-label">Category</label>
+                <label for="categories_id" class="form-label">Categorie</label>
                 <select class="form-control" id="categories_id" name="categories_id">
                     @foreach ($categories as $category)
-                      <option value="{{$category->name}}">{{$category->name}}</option>
+                      <option value="{{$category->id}}">{{$category->name}}</option>
                     @endforeach
                 </select>
                 @if($errors->has('categories_id'))
-                    <div class="error-message">{{ $errors->first('categories_id') }}</div>
+                    <div class="error-message">{{ $errors }}</div>
                 @endif            
             </div>
             <div>

@@ -18,54 +18,54 @@
         </nav>
 
     <form method="GET" action="{{ url('/') }}">
-        <div class="form-group">
-            <label for="category">Categorie:</label>
-            <select name="category" id="category" class="form-control">
-                <option value="">All</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
+        <div class="mb-3">
+            <label for="categories_id" class="form-label">Categorie</label>
+            <select class="form-control" id="categories_id" name="categories_id">
+                @foreach ($categories as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                 @endforeach
             </select>
+            @if($errors->has('categories_id'))
+                <div class="error-message">{{ $errors }}</div>
+             @endif            
         </div>
+        
 
         <div class="form-group">
             <label for="stock">Stock</label>
-            <select id="stock" name="stock" class="form-control">
-                 @for ($i = 0; $i <= 10000; $i += 10)
-                    <option value="{{ $i }}">{{ $i }}</option>
-                @endfor
-            </select>
+            <input type="number" id="stock" name="stock" class="form-control" value="{{ request('stock') }}" min="0">
+        @if($errors->has('stock'))
+            <div class="error-message">{{ $errors }}</div>
+        @endif 
         </div>
-
+        
         <button type="submit" class="btn btn-primary mt-2">Filter</button>
     </form>
-
+   
 
     <!-- Liste des projets et des tâches -->
     @foreach ($categories as $category)
-     <div class="card mb-4" data-category-id="1">
-        <div class="card-header">
-            <h4>Categories:{{ $category->name }}</h4>
+        <div class="card mb-4" data-category-id="1">
+            <div class="card-header">
+                <h4>Categories:{{ $category->name }}</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    
+                    @foreach ($category->products as $product  )
+                    <li class="list-group-item d-flex justify-content-between align-items-center" data-status="pending">
+                        <span>
+                            <strong>{{ $product->id}}</strong>
+                            <h5>Nom:</h5><strong>{{ $product->name }}</strong>
+                            <h5>Stock:</h5><strong>{{ $product->stock }}</strong>
+                        </span>
+                    </li> 
+                    @endforeach 
+                
+                </ul>
+            </div>
         </div>
-        <div class="card-body">
-            <ul class="list-group">
-                @if ($category->product && $category->product->count())     
-                @foreach ($category->product as $products )
-                <li class="list-group-item d-flex justify-content-between align-items-center" data-status="pending">
-                    <span>
-                        <p>Nom</p>
-                        <strong>{{ $products->name }}</strong>
-                    </span>
-                    <span class="badge badge-secondary">{{ $products->stock }}</span>
-                </li> 
-                @endforeach 
-                @else
-                    <li>Aucun produit disponible</li>
-                @endif
-            </ul>
-        </div>
-    </div>
-     @endforeach
+    @endforeach
 
 
 </div>

@@ -11,7 +11,8 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = product::with('categories')->get();
+        // $products = product::with('category')->get();
+        $products = product::all();
         return view("products.index", compact('products'));
     }
 
@@ -25,12 +26,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         
+    
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|decimal:15,2',
-            'stock' => 'required|integer',
-            'category_id' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required',
+            'stock' => 'required',
+            'category_id' => 'exists:categories,id',
         ]);
         
         product::create($request->all());
@@ -39,26 +41,25 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = product::find($id);
+        $products = product::find($id);
         $categories=category::all();
-        return view('products.edit', compact('product','categories'));
+        return view('products.edit', compact('products','categories'));
     } 
 
-    public function update(Request $request,Product $product)
+    public function update(Request $request,$id)
     {
-        
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|decimal:15,2',
-            'stock' => 'required|integer',
-            'categories_id' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required',
+            'stock' => 'required',
+            'category_id' => 'exists:categories,id',
         ]);
 
-        // $products = product::findOrFail($id);
-        $product->update($request->all());
+        $products = product::findOrFail($id);
+        $products->update($request->all());
 
-        return redirect('/products');
+        return redirect()->route('index.products');
     }
 
     public function destroy($id){

@@ -25,15 +25,15 @@
             <tbody>
                 @foreach ($products as $product )
                     <tr>
-                        <td>{{ $products->id}}</td>
-                        <td>{{ $products->name }}</td>
-                        <td>{{ $products->description }}</td>
-                        <td>{{ $products->price }}</td>
-                        <td>{{ $products->stock }}</td>
-                        <td>{{ $products->category->name }}</td>
+                        <td>{{ $product->id}}</td>
+                        <td>{{ $product->name }}</td>
+                        <td>{{ $product->description }}</td>
+                        <td>{{ $product->price }}</td>
+                        <td>{{ $product->stock }}</td>
+                        <td>{{ $product->category->name }}</td>
                         <td>
-                            <a href="{{ route('edit.products',$products->id) }}" class="btn btn-warning btn-sm">Modifier</a>
-                            <form action="{{ route('destroy.products', $products->id) }}" method="POST" style="display:inline;">
+                            <a href="{{ route('edit.products',$product->id) }}" class="btn btn-warning btn-sm">Modifier</a>
+                            <form action="{{ route('destroy.products', $product->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>

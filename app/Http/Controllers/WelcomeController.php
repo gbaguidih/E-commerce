@@ -10,28 +10,31 @@ class WelcomeController extends Controller
 {
     public function index(Request $request)
     {
+        
         // Récupérer les catégories disponibles pour le filtrage
         $categories = Category::all();
 
         // Récupérer les paramètres de filtrage depuis la requête
-        $categoryId = $request->input('category');
-        $inStock = $request->input('in_stock');
+        $category = $request->input('category');
+        $stock = $request->input('stock');
 
         // Construire la requête de filtrage
         $query = Product::query();
 
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
+        if ($category) {
+            $query->where('category_id', $category);
+            
         }
+        if (is_numeric($stock)) {
+            $query->where('stock', '>=', intval($stock));
 
-        if ($inStock !== null) {
-            $query->where('stock', '>', 0);
         }
 
         $products = $query->get();
-
+       
         return view('welcome', compact('products', 'categories'));
     }
+
 
    
 }
